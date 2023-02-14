@@ -1,0 +1,31 @@
+using API.Data;
+using API.Entities;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+
+namespace API.Controllers
+{
+    [ApiController]
+    [Route("api/[controller]")]
+    public class JournalistsController : ControllerBase
+    {
+        private readonly DataContext _context;
+        public JournalistsController(DataContext context)
+        {
+            _context = context;
+        }
+
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Journalist>>> GetJournalists()
+        {
+            return await _context.Journalists.ToListAsync();
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Journalist>> GetJournalist(int id)
+        {
+            return await _context.Journalists.FindAsync(id);
+        }
+    }
+}
