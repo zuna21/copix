@@ -5,9 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class JournalistsController : ControllerBase
+    public class JournalistsController : BaseApiController
     {
         private readonly DataContext _context;
         public JournalistsController(DataContext context)
@@ -16,13 +14,13 @@ namespace API.Controllers
         }
 
 
-        [HttpGet]
+        [HttpGet] // GET: api/journalists
         public async Task<ActionResult<IEnumerable<Journalist>>> GetJournalists()
         {
             return await _context.Journalists.ToListAsync();
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}")] // GET: api/journalists/{id}
         public async Task<ActionResult<Journalist>> GetJournalist(int id)
         {
             return await _context.Journalists.FindAsync(id);
