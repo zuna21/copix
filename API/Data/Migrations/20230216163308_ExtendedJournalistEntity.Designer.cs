@@ -3,6 +3,7 @@ using System;
 using API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230216163308_ExtendedJournalistEntity")]
+    partial class ExtendedJournalistEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.2");
@@ -29,7 +32,7 @@ namespace API.Data.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("JournalistId")
+                    b.Property<int?>("JournalistId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Title")
@@ -47,6 +50,9 @@ namespace API.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("Category")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("City")
                         .HasColumnType("TEXT");
@@ -76,13 +82,9 @@ namespace API.Data.Migrations
 
             modelBuilder.Entity("API.Entities.Article", b =>
                 {
-                    b.HasOne("API.Entities.Journalist", "Journalist")
+                    b.HasOne("API.Entities.Journalist", null)
                         .WithMany("Articles")
-                        .HasForeignKey("JournalistId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Journalist");
+                        .HasForeignKey("JournalistId");
                 });
 
             modelBuilder.Entity("API.Entities.Journalist", b =>
